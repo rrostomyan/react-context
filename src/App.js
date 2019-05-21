@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Toolbar from "./components/toolbar";
+import ThemeContext from "./context";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const themes = ["green", "red"];
+
+class App extends React.Component {
+  state = {
+    theme: themes[0]
+  };
+
+  onChangeTheme = () => {
+    const {theme} = this.state;
+    const index = themes.indexOf(theme);
+    this.setState({
+      theme: themes[1-index]
+    })
+  };
+
+  render() {
+    const { theme } = this.state;
+    return (
+      <ThemeContext.Provider value={theme}>
+        <div className="App">
+          <Toolbar onThemeChange={this.onChangeTheme} />
+        </div>
+      </ThemeContext.Provider>
+    );
+  }
 }
 
 export default App;
