@@ -6,24 +6,35 @@ import ThemeContext from "./context";
 const themes = ["green", "red"];
 
 class App extends React.Component {
-  state = {
-    theme: themes[0]
-  };
 
-  onChangeTheme = () => {
-    const {theme} = this.state;
-    const index = themes.indexOf(theme);
-    this.setState({
-      theme: themes[1-index]
-    })
-  };
+  constructor() {
+    super();
+
+    this.onChangeTheme = () => {
+      const {theme} = this.state;
+      const index = themes.indexOf(theme.value);
+      this.setState({
+        theme: {
+          ...theme,
+          value: themes[1-index]
+        }
+      })
+    };
+
+    this.state = {
+      theme: {
+        value: themes[0],
+        onChangeTheme: this.onChangeTheme
+      }
+    };
+  }
 
   render() {
     const { theme } = this.state;
     return (
       <ThemeContext.Provider value={theme}>
         <div className="App">
-          <Toolbar onThemeChange={this.onChangeTheme} />
+          <Toolbar />
         </div>
       </ThemeContext.Provider>
     );
